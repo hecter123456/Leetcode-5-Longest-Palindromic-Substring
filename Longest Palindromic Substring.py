@@ -23,13 +23,17 @@ class Solution():
                 return False
         if s == "":
             return s
-        for i in range(1,len(s)+1):
-            if IsPalindrome(s[:i]):
-                Ans = s[:i]
-        ParentAns = Solution().longestPalindrome(s[1:i])
-        if len(ParentAns) > len(Ans):
-            return ParentAns
-        return Ans
+        ansLen = 1
+        ansStart = 0
+        for i in range(1,len(s)):
+            checkRange = i - ansLen
+            if checkRange > 0 and IsPalindrome(s[checkRange-1:i+1]):
+                ansLen += 2
+                ansStart = checkRange-1
+            elif checkRange >= 0 and  IsPalindrome(s[checkRange:i+1]):
+                ansLen += 1
+                ansStart = checkRange
+        return s[ansStart:ansStart + ansLen]
 
 if __name__ == '__main__':
     unittest.main()
